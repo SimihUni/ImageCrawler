@@ -1,0 +1,26 @@
+{
+  "name": "imagecrawler",
+  "version": "1.0.0",
+  "description": "Crawler from an interview problem",
+  "main": "backend/src/index.js",
+  "scripts": {
+    "start": "node backend/src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimihUni/ImageCrawler.git"
+  },
+  "author": "Simeon Mihaylov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SimihUni/ImageCrawler/issues"
+  },
+  "homepage": "https://github.com/SimihUni/ImageCrawler#readme",
+  "dependencies": {
+    "cron": "^4.3.1",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  }
+}

@@ -1,5 +1,6 @@
-import { genericQuery } from "./connection";
-import { isValidHttpUrl } from "../helpers";
+import connection from "./connection.js";
+const { genericQuery } = connection;
+import { isValidHttpUrl } from "../helpers.js";
 
 async function getURLs(pageSize = 100, firstId = 0) {
   if (!pageSize || pageSize <= 0) {

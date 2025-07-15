@@ -1,9 +1,9 @@
 import 'dotenv/config'
 import express from 'express';
 import { CronJob } from 'cron';
-import routerConf from './routerConfig.js';
-import { checkRequiredENVs } from './helpers.js';
-import db from './db/connection.js';
+import routerConf from './src/routerConfig.js';
+import { checkRequiredENVs } from './src/helpers.js';
+import db from './src/db/connection.js';
 
 checkRequiredENVs(['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME'])
 
@@ -12,7 +12,7 @@ await db.createPool();
 let tick = true;
 
 const job = CronJob.from({
-	cronTime: '* * * * * *',
+	cronTime: '0 * * * * *',
 	onTick: function () {
 		console.log(tick?'tick': 'tock');
         tick = !tick;

@@ -1,6 +1,6 @@
 import express from "express";
-import { isValidHttpUrl } from "../helpers";
-import queries from "../db/queries";
+import { isValidHttpUrl } from "../helpers.js";
+import queries from "../db/queries.js";
 const crud = express.Router();
 
 crud.get("/", (req, res) => {
@@ -12,6 +12,7 @@ crud.get("/", (req, res) => {
 
 crud.post("/add-url", async (req, res) => {
   const { url } = req.body;
+  console.log("Received URL:", url);
   if (!url || !isValidHttpUrl(url)) {
     return res.status(400).json({
       message: "Invalid URL provided",
@@ -19,10 +20,10 @@ crud.post("/add-url", async (req, res) => {
     });
   }
 
-  const res = await queries.addURL(url);
+  const result = await queries.addURL(url);
 
   res.json({
-    message: `URL ${url} added successfully with ID ${res}`,
+    message: `URL ${url} added successfully with ID ${result}`,
     status: "success",
   });
 });

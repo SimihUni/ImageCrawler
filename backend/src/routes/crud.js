@@ -12,7 +12,7 @@ crud.get("/", (req, res) => {
 
 crud.post("/add-url", async (req, res) => {
   const { url } = req.body;
-  console.log("Received URL:", url);
+  console.log(isValidHttpUrl(url));
   if (!url || !isValidHttpUrl(url)) {
     return res.status(400).json({
       message: "Invalid URL provided",

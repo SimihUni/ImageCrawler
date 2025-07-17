@@ -1,7 +1,7 @@
-import AddUrl from "./AddUrl.jsx";
-import UrlList from "./UrlList.jsx";
-import Layout from "./Layout.jsx";
-import BentoGrid from "./BentoGrid.jsx";
+import AddUrl from "../AddUrl.jsx";
+import UrlList from "../UrlList.jsx";
+import Layout from "../layout/Layout.jsx";
+import BentoGrid from "../layout/BentoGrid.jsx";
 
 function App() {
   return (

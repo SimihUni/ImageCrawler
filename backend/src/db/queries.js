@@ -3,20 +3,30 @@ const { genericQuery } = connection;
 import { isValidHttpUrl } from "../helpers.js";
 
 async function getURLs(pageSize = 100, firstId = 0) {
-  if (!pageSize || pageSize <= 0) {
+  if (pageSize === undefined || pageSize <= 0) {
     throw new Error("Invalid page size");
   }
-  if (!firstId || firstId < 0) {
+  if (pageSize === undefined || firstId < 0) {
     throw new Error("Invalid first ID");
   }
   const query =
-    "SELECT id, url FROM urls WHERE active = true AND blackList = false AND id > $2 ORDER BY id DESC LIMIT $1";
+    'SELECT id, url FROM urls WHERE active = true AND "blackList" = false AND id > $2 ORDER BY id DESC LIMIT $1';
   const values = [pageSize, firstId];
   const result = await genericQuery(query, values);
   return result.map((row) => ({
     id: row.id,
     url: row.url,
   }));
+}
+
+async function getURLsCount() {
+  const query =
+    'SELECT COUNT(id) AS count FROM urls WHERE active = true AND "blackList" = false';
+  const result = await genericQuery(query);
+  if (result.length === 0) {
+    return 0;
+  }
+  return parseInt(result[0].count, 10);
 }
 
 async function addURL(url) {
@@ -53,7 +63,7 @@ async function updateBlacklistedURL(id, blacklisted = true) {
     throw new Error("Invalid blacklisted status");
   }
   const query =
-    "UPDATE urls SET blackList = $2, blackDate = NOW() WHERE id = $1";
+    'UPDATE urls SET "blackList" = $2, "blackListDate" = NOW() WHERE id = $1';
   const values = [id, blacklisted];
   const result = await genericQuery(query, values);
   return result.rowCount > 0;
@@ -67,7 +77,7 @@ async function addImage(urlId, imageCount) {
     throw new Error("Invalid image count");
   }
   const query =
-    "INSERT INTO images (url_id, imageCount) VALUES ($1, $2) RETURNING id";
+    'INSERT INTO images (url_id, "imageCount") VALUES ($1, $2) RETURNING id';
   const values = [urlId, imageCount];
   const result = await genericQuery(query, values);
   if (result.length === 0) {
@@ -80,7 +90,8 @@ async function aggregateAverageImageCount(urlId, periodInDays = null) {
   if (!urlId || urlId <= 0) {
     throw new Error("Invalid URL ID");
   }
-  let query = "SELECT AVG(imageCount) AS average FROM images WHERE url_id = $1";
+  let query =
+    'SELECT AVG("imageCount") AS average FROM images WHERE url_id = $1';
   const values = [urlId];
 
   if (periodInDays && typeof periodInDays === "number" && periodInDays > 0) {
@@ -96,7 +107,7 @@ async function aggregateAverageImageCount(urlId, periodInDays = null) {
 }
 
 async function getSortedAveragesForURLsForTimePeriod(periodInDays = null) {
-  let query = "SELECT url_id, AVG(imageCount) AS average FROM images";
+  let query = 'SELECT url_id, AVG("imageCount") AS average FROM images';
   const values = [];
 
   if (periodInDays && typeof periodInDays === "number" && periodInDays > 0) {
@@ -114,6 +125,7 @@ async function getSortedAveragesForURLsForTimePeriod(periodInDays = null) {
 }
 
 export default {
+  getURLsCount,
   getURLs,
   addURL,
   updateActiveStatusURL,

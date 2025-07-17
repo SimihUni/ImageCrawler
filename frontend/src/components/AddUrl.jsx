@@ -39,7 +39,7 @@ function AddUrl() {
   //console.log(import.meta.env?.VITE_BACKEND_URL);
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md w-full">
           <h1 className="text-center text-2xl font-bold mb-6">Image Crawler</h1>
           <form action={handleSubmit}>
@@ -79,7 +79,7 @@ function AddUrl() {
             )}
           </form>
         </div>
-      </div>
+      
     </>
   );
 }
